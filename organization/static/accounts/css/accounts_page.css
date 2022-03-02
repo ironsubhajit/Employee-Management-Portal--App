@@ -1,0 +1,50 @@
+body{
+    background-color: black;
+    color: white;
+}
+
+.navbar-brand:hover {
+    color: #47d7ac!important;
+}
+
+.nav-link{
+    color: aliceblue!important;
+    transition: color 0.5s;
+}
+
+.nav-link:hover {
+    color: #47d7ac!important;
+}
+
+.employeeProfileDetails {
+    color: Black;
+    width: 30rem;
+}
+
+.authForm{
+    padding: .5rem 6rem 0.5rem 6rem;
+}
+
+a.signInLink, .registerLink{
+    text-decoration: none;
+    color: aliceblue;
+    transition: all 0.4s;
+}
+
+.registerLink:hover, a.signInLink:hover{
+    color: #47d7ac;
+}
+
+@media screen and (min-width: 1024px) {
+    .authForm {
+        padding: .5rem 20rem 0.5rem 20rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .authForm{
+        padding-left: 2%;
+        padding-right: 2%;
+        padding-bottom: 1%;
+    }
+}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ employee_auth.username }} | Profile
+{% endblock %}
+
+{% block custom_css %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='accounts/css/accounts_page.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='employee/employee_css.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center"> Welcome to {{ employee_contact.firstname }}'s profile</h1><br>
+    <section class="container employeeProfileDetails">
+        <div class="card">
+            <div class="card-body">
+              <div class="employee-active-status-div text-center mt-0 mb-3">
+                {% if employee_auth.role_id is none %}
+                  <button class="btn btn-danger btn-tag disabled">Removed Employee</button>
+                {% else %}
+                  <button class="btn btn-success btn-tag disabled">Active</button>
+                {% endif %}
+              </div>
+              <h5 class="card-title">{{ employee_contact.firstname }} {{ employee_contact.lastname }}</h5>
+              <p class="card-text small">@{{ employee_auth.username }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              {% if employee_contact %}
+                <li class="list-group-item">Email Id: {{ employee_contact.email }}</li>
+                <li class="list-group-item">Phone Number: {{ employee_contact.phone_number }}</li>
+                <li class="list-group-item">Date of Birth: {{ employee_contact.date_of_birth }}</li>
+                <li class="list-group-item">Address Line: {{ employee_contact.addressLine }}</li>
+                <li class="list-group-item">City: {{ employee_contact.city.city_name }}</li>
+                <li class="list-group-item">Pin Code: {{ employee_contact.city.pin_code }}</li>
+              {% else %}
+                <li class="list-group-item">Phone Number: <span class="small">need to update</span> </li>
+                <li class="list-group-item">Date of Birth: <span class="small">need to update</span> </li>
+                <li class="list-group-item">Address Line: <span class="small">need to update</span> </li>
+                <li class="list-group-item">City: <span class="small">need to update</span> </li>
+                <li class="list-group-item">Pin Code: <span class="small">need to update</span> </li>
+              {% endif %}
+            </ul>
+            {% set current_user_id = current_user.get_id() | int %}
+            {% set profile_employee_id = employee_auth.e_id | int %}
+            {% if employee_auth.is_active_employee() %}
+              <div class="card-body">
+                <a href="{{ url_for('employee.update_profile', e_id=employee_auth.e_id) }}" class="card-link btn btn-outline-primary">Edit Details</a>
+                {% if current_user_id != profile_employee_id %}
+                  <form action="{{ url_for('employee.remove_employee', e_id=profile_employee_id) }}" method="POST" class="form-goup">
+                    <div class="action-btn mt-2">
+                      <button type="submit" class="btn btn-outline-danger">Remove Employee</button>
+                    </div>
+                  </form>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="card-body">
+                <a href="#" class="card-link btn btn-outline-primary disabled">Edit Details</a>
+              </div>
+            {% endif %}
+          </div>
+    </section>
+{% endblock %}

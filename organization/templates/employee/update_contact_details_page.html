@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}
+    Profile Page
+{% endblock %}
+{% block custom_css %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='accounts/css/accounts_page.css') }}">
+{% endblock %}
+{% block content %}
+<section class="container text-center">
+    <h1 class="h3 m-3 font-weight-normal">
+        Welcome {{ context['employee_auth'].username }}'s Profile
+    </h1>
+    <div class="container">
+        <form method="POST" class="form-signin">
+            {{ context['contact_address_form'].hidden_tag() }}
+            <div class="row m-3">
+                <div class="col">
+                    {{ context['contact_address_form'].firstname.label(class="visually-hidden", for="firstName") }}
+                    {{ context['contact_address_form'].firstname(class="form-control", id="firstName", value=context['employee_contact_details'].firstname, placeholder="First Name") }}
+                </div>
+                <div class="col">
+                    {{ context['contact_address_form'].lastname.label(class="visually-hidden", for="lastName") }}
+                    {{ context['contact_address_form'].lastname(class="form-control", id="lastName",value=context['employee_contact_details'].lastname, placeholder="Last Name") }}
+                </div>
+                <div class="col-sm-6">
+                    {{ context['contact_address_form'].email.label(class="visually-hidden", for="emailId") }}
+                    {% if context['employee_contact_details'].email %} <!-- email value present -->
+                        {{
+                            context['contact_address_form'].email(
+                                class="form-control",
+                                id="emailId",
+                                value=context['employee_contact_details'].email,
+                                placeholder="Email Id",
+                                readonly='readonly'
+                            )
+                        }}
+                    {% else %}
+                        {{
+                            context['contact_address_form'].email(
+                                class="form-control", id="emailId",
+                                value=context['employee_contact_details'].email,
+                                placeholder="Email Id",
+                            )
+                        }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm mb-3">
+                    {{ context['contact_address_form'].date_of_birth.label(class="visually-hidden", for="dobField") }}
+                    {{ context['contact_address_form'].date_of_birth(type="date", class="form-control", id="dobField", value=context['employee_contact_details'].date_of_birth, required="required") }}
+                </div>
+                <div class="col-sm mb-3">
+                    {{ context['contact_address_form'].phone_number.label(class="visually-hidden", for="phoneNumberField") }}
+                    {% if context['employee_contact_details'].phone_number %} <!-- phone number value present -->
+                        {{
+                            context['contact_address_form'].phone_number(
+                                type="text",
+                                class='form-control',
+                                id='phoneNumberField',
+                                value=context['employee_contact_details'].phone_number,
+                                placeholder='Mobile No',
+                                readonly='readonly'
+                            )
+                        }}
+                    {% else %}
+                        {{
+                            context['contact_address_form'].phone_number(
+                                type="text",
+                                class='form-control',
+                                id='phoneNumberField',
+                                value=context['employee_contact_details'].phone_number,
+                                placeholder='Mobile No'
+                            )
+                        }}
+                    {% endif %}
+                </div>
+                <div class="col-sm-7 mb-3">
+                    {{ context['contact_address_form'].addressLine.label(class="visually-hidden", for="addressField") }}
+                    {{ context['contact_address_form'].addressLine(class="form-control", id="addressField",value=context['employee_contact_details'].addressLine, placeholder="Address Line") }}
+                </div>
+            </div>
+            <div class="row m-3">
+                {% if context['employee_contact_details'] %}
+                    <div class="col-sm-3">
+                        {{ context['city_form'].city_name.label(class="visually-hidden", for="cityName") }}
+                        {{ context['city_form'].city_name(type="text", class="form-control", id="cityName",value=context['employee_contact_details'].city.city_name, placeholder="City Name") }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ context['city_form'].pin_code.label(class="visually-hidden", for="pinCode") }}
+                        {{ context['city_form'].pin_code(type="text", class="form-control", id="pinCode",value=context['employee_contact_details'].city.pin_code, placeholder="Pin Code") }}
+                    </div>
+                {% else %}
+                    <div class="col-sm-3">
+                        {{ context['city_form'].city_name.label(class="visually-hidden", for="cityName") }}
+                        {{ context['city_form'].city_name(type="text", class="form-control", id="cityName", placeholder="City Name") }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ context['city_form'].pin_code.label(class="visually-hidden", for="pinCode") }}
+                        {{ context['city_form'].pin_code(type="text", class="form-control", id="pinCode", placeholder="Pin Code") }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row m-3">
+                <div class="col">
+                    {{ context['contact_address_form'].submit(class="btn btn-md btn-block btn-primary") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

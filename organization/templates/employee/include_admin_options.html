@@ -1,0 +1,98 @@
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-dark">
+    <thead>
+      <tr>
+        <!-- Your Columns HERE -->
+        <th scope="col">ID</th>
+        <th scope="col-sm-2">Username</th>
+        <th scope="col-sm-2">Employee Name</th>
+        <th scope="col-sm-2">Email</th>
+        <th scope="col-sm-2">City</th>
+        <th scope="col-sm-2">Active Employee</th>
+        <th scope="col-sm-2">Actions</th>
+        <th scope="col-sm-2">Make Permission</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- admin table rows inside the table here -->
+      {% for employee in context['employee_profile_details'] %}
+      <tr>
+        <!-- Employee ID -->
+        <td>{{ employee[0] }}</td>
+
+        <!-- Username -->
+        <td>
+          {{ employee[1] }} {% if employee[7] %}
+          <button class="btn btn-secondary btn-tag disabled">Admin</button>
+          {% endif %}
+        </td>
+
+        <!-- Employee Name -->
+        <td>{{ employee[2] }} {{ employee[3] }}</td>
+
+        <!-- Employee Email -->
+        <td>{{ employee[4] }}</td>
+
+        <!-- Employee City -->
+        <td>{{ employee[5] }}</td>
+
+        <!-- Employee is_active -->
+        {% if employee[6] %}
+          <td class="text-center">
+            <span class="icon green-checked">
+              <img src="{{ url_for('static', filename='icons/green-checked.png') }}" alt="Checked icon">
+            </span>
+          </td>
+        {% else %}
+        <td class="text-center">
+          <span class="icon green-checked">
+            <img src="{{ url_for('static', filename='icons/red-close.png') }}" alt="Unchecked icon">
+          </span>
+        </td>
+        {% endif %}
+
+        <!-- Admin Actions -->
+        <td>
+          <div class="more-info">
+            <a
+              href="{{ url_for('employee.employee_profile', e_id=employee[0]) }}"
+            >
+              <button class="btn btn-outline btn-info mt-2">More Info</button>
+            </a>
+          </div>
+        </td>
+        <td>
+          {% set current_user_id = current_user.get_id() | int %}
+          {% set user_id = employee[0] | int %}
+          {% if employee[7] %}
+            {% if current_user_id == user_id %}
+              <a href="#">
+                <button class="btn btn-outline btn-info disabled mt-2">Make Employee</button>
+              </a>
+            {% else %}
+              <form action="{{ url_for('employee.make_employee', e_id=employee[0]) }}" method="POST">
+                <a>
+                  <button type="submit" class="btn btn-outline btn-info mt-2">Make Employee</button>
+                </a>
+              </form>
+            {% endif %}
+
+          {% else %}
+            {% if current_user_id == user_id %}
+              <a href="#">
+                <button class="btn btn-outline btn-info disabled mt-2 px-4">Make Admin</button>
+              </a>
+            {% else %}
+              <form action="{{ url_for('employee.make_admin', e_id=employee[0]) }}" method="POST">
+                <a>
+                  <button type="submit" class="btn btn-outline btn-info mt-2 px-4">Make Admin</button>
+                </a>
+              </form>
+            {% endif %} 
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

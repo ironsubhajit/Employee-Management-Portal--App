@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign up page
+{% endblock %}
+{% block custom_css %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='accounts/css/accounts_page.css') }}">
+{% endblock %}
+{% block content %}
+    <section class="container authForm">
+        <h1 class="h3 mt-3 mb-3 text-center font-weight-normal">
+            Please Create Your Account
+        </h1>
+        <form method="POST" class="form-register">
+            {{ context['auth_form'].hidden_tag() }}
+            <div class="row mb-3">
+                <div class="col">
+                        {{ context['auth_form'].username.label(class="visually-hidden", for="userName") }}
+                    <div class="input-group">
+                        <div class="input-group-text">@</div>
+                        {{ context['auth_form'].username(class="form-control", id="userName", placeholder="Username") }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col">
+                    {{ context['auth_form'].password1.label(class="visually-hidden", for="password1") }}
+                    {{ context['auth_form'].password1(type="password", class="form-control", id="password1", placeholder="Password") }}
+                </div>
+                <div class="col">
+                    {{ context['auth_form'].password2.label(class="visually-hidden", for="password2") }}
+                    {{ context['auth_form'].password2(type="password", class="form-control", id="password2", placeholder="Confirm Password") }}
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3 text-center">
+                <div class="col">
+                    {{ context['auth_form'].submit(class="btn btn-md btn-block btn-primary") }}
+                </div>
+            </div>
+        </form>
+    </section>
+    <section class="container auth-options">
+        <br>
+        <div class="text-center">
+            <h5>Or</h5>
+        </div>
+        <br>
+        <div class="alternative-auth-options text-center">
+            <p class="fst-normal lh-lg fs-6">Already have an account ? <span class="fst-normal badge bg-dark text-wrap"><a
+                        href="{{ url_for('account.login_page') }}" class="signInLink">Sign in</a></span> here</p>
+        </div>
+    </section>
+{% endblock %}
